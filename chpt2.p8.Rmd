@@ -1,0 +1,50 @@
+---
+title: "chpt2.p8"
+author: "Claudius Taylor"
+date: "7/13/2019"
+output: pdf_document
+---
+
+```{r results='asis', echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+library(dplyr)
+library(stats)
+library(ISLR)
+```     
+
+## (a) reading the data
+```{r}
+college = College
+```
+
+## (b) numerical summary of the variables in the data set
+```{r}
+summary(college)
+```
+
+## (c) scatterplot matrix of the first ten variables of the data
+```{r}
+pairs(college[,1:10])
+```
+
+## (d) produce a side-by-side boxplots of Outstate versus Private
+```{r}
+plot(college$Private, college$Outstate)
+```
+
+## (e) create a new qualitative variable, called Elite, by binning the Top10perc variable. Divide the universities into two groups based on whether or not the proportion of students coming from the Top10perc of the high school classes exceeds 50 %
+```{r}
+Elite = rep("NO", nrow(college))
+Elite[college$Top10perc > 50] = "YES"
+Elite = as.factor(Elite)
+college = data.frame(college, Elite)
+```
+
+## (f) produce a side-by-side boxplots of Outstate versus Elite
+```{r}
+plot(college$Elite, college$Outstate)
+```
+
