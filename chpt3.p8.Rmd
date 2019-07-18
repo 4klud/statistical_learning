@@ -1,0 +1,49 @@
+---
+title: "chpt3.p8"
+author: "Claudius Taylor"
+date: "7/17/2019"
+output: pdf_document
+---
+
+```{r results='asis', echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+library(dplyr)
+library(stats)
+library(ISLR)
+```     
+
+## (a) Use the lm() function to perform a simple linear regression with "mpg" as the response and "horsepower" as the predictor. Use the summary() function to print the results.  
+```{r}
+data(Auto)
+fit <- lm(mpg ~ horsepower, data = Auto)
+summary(fit)
+```
+
+## How strong is the relationship between the predictor and the response ?
+## $R^2$ is equal to 0.6059, almost 61% of the variability in "mpg" can be explained using "horsepower".
+
+## Is the relationship between the predictor and the response +ve or -ve ?
+## Since coeficient of "horsepower" is negative, the relationship is also negative.
+
+## (b) What is the predicted $mpg$ associated with a "horsepower" of 98 ? What are the associated 95% confidence and prediction intervals ?
+```{r}
+predict(fit, data.frame(horsepower = 98), interval = "confidence")
+```
+
+## (c) Plot the response and the predictor. Use the abline() function to display the least squares regression line.
+```{r}
+plot(Auto$horsepower, Auto$mpg, main = "Response vs. Predictor", 
+     xlab = "horsepower", ylab = "mpg", col = "blue")
+abline(fit, col = "red")
+```
+
+## (d) Use the plot() function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.
+```{r}
+par(mfrow = c(2, 2))
+plot(fit)
+```
+
+## The plot of residuals versus fitted values indicates the presence of nonlinearity in the data. The plot of standardized residuals versus leverage indicates the presence of a few outliers (higher than 2 or lower than -2) and a few high leverage points.
